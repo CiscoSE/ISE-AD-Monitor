@@ -1,10 +1,1 @@
-click
-paramiko
-time
-datetime
-socket
-sys
-smtplib
-getpass
-email.MIMEMultipart
-email.MIMEText
+paramiko==2.4.2
