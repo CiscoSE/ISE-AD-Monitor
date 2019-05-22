@@ -2,59 +2,52 @@
 
 ## Motivation
 
-Due to a software defect in Cisco ISE, the connectivity between ISE and Active Directory can randomly go down, and the only workaround to restore this connectivity is to restart the ISE application from the ISE CLI. Based on a customer request, this script was developed to automatically apply the workaround when the issue happens, a temporary workaround to be used until the issue is permanently fixed in software.
+Due to instability in the AD connector between Cisco ISE and Microsoft Active Directory, triggered by highly tweaked and hardened AD configuration and change activities causing the AD nodes to flap, the connectivity between ISE and Active Directory can go down and stay down even after the specific failed AD node comes back up. The other AD servers are not used even though they stayed up.
+When this occurs, the only workaround to restore the ISE connectivity to AD servers is to restart the ISE application from the ISE CLI. 
+
+This script was developed to automatically apply the workaround when the issue happens, a temporary workaround to be used until the issue is permanently fixed in software.
 
 ## Features
 
-- The script monitors the success of authentication to a monitoring probe which uses ISEs for AAA (Authentication) services.
-- In case 3 authentication attempts fail due to unresponsiveness, the ISE application is stopped and then restarted. 
-- An email notification is also sent to the specified recipient list.
+- The script monitors the success of authentication to a monitoring probe which uses ISE for AAA (Authentication) services.
+- In case 3 authentication attempts fail due to unresponsiveness, the script performs the workaround of restarting the ISE application. 
+- An email notification is also sent to a specified recipient list.
 
 
 **Cisco Products & Services:**
 
-- Cisco ISE 
+- Cisco Identity Services Engine (ISE)
 
 **Third-Party Products & Services:**
 
-- Microsoft Active Directory
-
+- Microsoft Active Directory Server
 
 ## Usage
 
-- Machine on which to run the script:
-Python 2.7 is installed along with packages:
-Paramiko, smtplib, getpass
+1. Update the variables with the required information in the environment variables file (env_user.py).
 
-- Verify IP reachability to ISE and monitoring probe management interfaces
+2. Verify IP reachability between ISE server and the machine where the script is to run, and between ISE server and the AAA client where authentication is to be monitored.
 
-- Update the ISE and monitoring probe static fields manually inside the script (at specified section via comments):
-ISE Address, username, password
-Probe Address, username, password
-Sender and recipient emails and SMTP server
+3. Verify that the username & password used in the authentication checks is valid and can successfully authenticate.
 
-- It is recommended to log the terminal session in which the script is running. All events are tagged with timestamps.
+4. Run the script by:
+$ python ise_ad_script.py
 
+Notes:
 - Script will exit when the probe is unreachable
 - A failure is considered only when the probe is reachable but authentication via ISE is failing
 - When the probe re-authenticates successfully after a failure (failure_count < 3), the failure count is reset and subsequently 3 consecutive failures would be needed to trigger the ISE reset
 - Script will exit when ISE is unreachable and when authentication is failing to ISE
 
-Sample run:
-
-$ python ISE_AD_Script.py
-Please enter the sender email password:
-2018-11-19 11:48:22.376207: Starting the ISE monitoring script using probe to 10.0.0.161.
-2018-11-19 11:48:31.042594: Authentication failed 1 time(s).
-2018-11-19 11:49:42.418197: Authentication failed 2 time(s).
-2018-11-19 11:50:50.299453: Authentication failed 3 time(s).
-2018-11-19 11:51:50.300386: Authentication to probe unavailable. We will proceed with the ISE restart to recover.
-2018-11-19 11:51:51.000314: Trying to connect to ISE...
-2018-11-19 11:51:54.413905: Unable to login to ISE. Please verify ISE is reachable, verify proper username/password is set and rerun the script.
-$
+For sample runs of the script, please check the screenshots folder.
 
 
-## Installation
+## Installation & Prerequisites:
+
+It is recommended to install the Python dependencies in a new virtual environment based on Python 2.7 or above. For information on setting up a virtual environment please check: http://docs.python-guide.org/en/latest/dev/virtualenvs/
+
+Python package prerequisites in "requirements.txt" file which is located in the root directory of this distribution. To install them: 
+$ pip install -r requirements.txt
 
 
 ## Authors & Maintainers
