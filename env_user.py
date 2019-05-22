@@ -19,8 +19,6 @@ or implied.
 
 """
 
-
-
 __author__ = "Charles Youssef"
 __email__ = "cyoussef@cisco.com"
 __version__ = "0.1.0"
@@ -28,22 +26,22 @@ __copyright__ = "Copyright (c) 2019 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.1"
 
 
-
+#############################################
 ##### Update the following information ######
 #############################################
-ise_address = "10.1.1.246"
-ise_username = "admin"
-ise_password = "cisco123"
+ise_address = "" #String
+ise_username = "" #String
+ise_password = "" #String
 
-probe_address = "10.48.0.1"
-probe_username = "admin"
-probe_password = "cisco!123"
+probe_address = "" #String
+probe_username = "" #String
+probe_password = "" #String
 
-sender_email = "<>@gmail.com"
-# Recipient_email is a list of comma-separated email addresses:
-recipient_email = ["<>@gmail.com", "<>@cisco.com"]
+sender_email = "" #String
+# Recipient_email is a list of comma-separated email addresses strings:
+recipient_email = ["", ""]
 
-smtp_server = "smtp.gmail.com"
-smtp_server_port = 587
+smtp_server = "" #String
+smtp_server_port = #Integer
 
 
